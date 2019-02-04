@@ -21,3 +21,17 @@ steps:
 - script: ls
   displayName: 'list contents'
   workingDirectory: $(Agent.BuildDirectory)  
+- powershell:  ./freshness-public/getfreshness.ps1 ../azure-docs/articles
+  workingDirectory:  $(Agent.BuildDirectory)
+  displayName:  powershell get freshness report
+  failOnStderr: false
+  errorActionPreference:  silentlyContinue
+  ignoreLASTEXITCODE:  true
+  env:  # mapping of environment variables to add
+- script: ls
+  displayName: 'list contents with report'
+  workingDirectory: $(Agent.BuildDirectory)
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'freshness.csv' 
+    targetPath: $(Build.ArtifactStagingDirectory)
