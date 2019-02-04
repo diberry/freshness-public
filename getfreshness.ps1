@@ -72,4 +72,7 @@ ForEach($file in $files) {
     $filesWithDates+=$fileWithDate
   }
 }
+Write-Host "done processing files"
+Write-Host $filesWithDates
 $filesWithDates | ConvertTo-Csv -NoTypeInformation | % {$_.Replace('"','')} | Out-File freshness.csv
+Write-Host "done creating freshness.csv"
