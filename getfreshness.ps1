@@ -19,7 +19,7 @@ $filesWithDates=@()
 
 #Loop through the files
 ForEach($file in $files) {
-
+ 
   #Find the date values
   $content = get-content $file.FullName 
 
@@ -48,6 +48,9 @@ ForEach($file in $files) {
   $difference = New-TimeSpan -Start $date -End $now
 
   if($difference.Days -gt $olderThan) {
+
+    Write-Host $file.Name
+
     #Create a new object and set the date and filename as properties
     $fileWithDate = new-object System.Object
     #$fileWithDate | add-member -MemberType NoteProperty -name LastPublished -Value $date
