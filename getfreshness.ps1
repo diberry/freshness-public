@@ -1,6 +1,7 @@
 param([string]$azureContentDir)
 
 #$azureContentDir = "/Users/diberry/repos/azure-docs-pr/articles/cognitive-services/"
+Write-Host $azureContentDir
 
 # Freshness is 90, but subtract 10 because
 # we want to catch them before they are overdue
