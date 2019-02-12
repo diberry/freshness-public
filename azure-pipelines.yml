@@ -37,3 +37,5 @@ steps:
   inputs:
     artifactName: 'freshness.csv' 
     targetPath: $(Build.ArtifactStagingDirectory)
+- script: echo Freshness report done!
+  displayName: 'Freshness report done!'
