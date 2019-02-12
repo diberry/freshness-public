@@ -35,6 +35,12 @@ steps:
 - script: ls -l
   displayName: 'list contents of ./ (root directory)'
   workingDirectory: $(Agent.BuildDirectory)
+- script: cp freshness.csv ./freshness-public
+  displayName: 'list contents of ./ (root directory)'
+  workingDirectory: $(Agent.BuildDirectory)  
+- script: ls freshness-public -l
+  displayName: 'list contents of ./ (root directory)'
+  workingDirectory: $(Agent.BuildDirectory)  
 - script: python ./freshness-public/sendresult.py 
   displayName: 'Send report in email with python script'
   workingDirectory: $(Agent.BuildDirectory)
