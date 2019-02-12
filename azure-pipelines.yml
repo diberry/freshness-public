@@ -3,7 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-#hello
+#fix python cli 
 
 trigger:
 - master
@@ -32,7 +32,7 @@ steps:
 - script: ls -l
   displayName: 'list contents with report'
   workingDirectory: $(Agent.BuildDirectory)
-- script: py 
+- script: python sendresult.py 
   displayName: 'python sendresult.py'
   workingDirectory: $(Agent.BuildDirectory)
 - task: PublishPipelineArtifact@0
