@@ -17,25 +17,29 @@ steps:
 - script: git clone https://github.com/diberry/freshness-public
   displayName: 'git freshness-public!'
   workingDirectory: $(Agent.BuildDirectory)
+- script: ls ./freshness-public -l
+  displayName: 'list contents of ./freshness-public'
+  workingDirectory: $(Agent.BuildDirectory)
 - script: git clone https://github.com/MicrosoftDocs/azure-docs
   displayName: 'git azure-docs'
   workingDirectory: $(Agent.BuildDirectory)
 - script: ls
-  displayName: 'list contents'
+  displayName: 'list contents of ./ (root directory)'
   workingDirectory: $(Agent.BuildDirectory)  
 - powershell:  ./freshness-public/getfreshness.ps1 ./azure-docs/articles
   workingDirectory:  $(Agent.BuildDirectory)
-  displayName:  powershell get freshness report
+  displayName:  'get freshness report with powershell script'
   failOnStderr: false
   errorActionPreference:  silentlyContinue
   ignoreLASTEXITCODE:  true
 - script: ls -l
-  displayName: 'list contents with report'
+  displayName: 'list contents of ./ (root directory)'
   workingDirectory: $(Agent.BuildDirectory)
 - script: python ./freshness-public/sendresult.py 
-  displayName: 'python sendresult.py'
+  displayName: 'Send report in email with python script'
   workingDirectory: $(Agent.BuildDirectory)
 - task: PublishPipelineArtifact@0
+  displayName: 'Publish artifact'
   inputs:
     artifactName: 'freshness.csv' 
     targetPath: $(Build.ArtifactStagingDirectory)
