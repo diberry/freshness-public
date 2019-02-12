@@ -8,6 +8,6 @@ smtpServer = 'smtp.office365.com'
 smtpPort = 587
 authLogin = 'apextest@microsoft.com'
 authPassword =  '#EDC4rfv%TGB6yhn'
-file = 'freshness.csv'
+file = '../freshness.csv'
 
 sendmail.sendWithAttachment(fromEmail,toEmail,subject,text,file,smtpServer,smtpPort,authLogin,authPassword)
