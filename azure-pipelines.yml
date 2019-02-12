@@ -30,6 +30,9 @@ steps:
 - script: ls -l
   displayName: 'list contents with report'
   workingDirectory: $(Agent.BuildDirectory)
+- script: python -v
+  displayName: 'python version'
+  workingDirectory: $(Agent.BuildDirectory)
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'freshness.csv' 
