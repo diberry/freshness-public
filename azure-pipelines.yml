@@ -32,7 +32,7 @@ steps:
 - script: ls -l
   displayName: 'list contents with report'
   workingDirectory: $(Agent.BuildDirectory)
-- script: python sendresult.py 
+- script: python ./freshness-public/sendresult.py 
   displayName: 'python sendresult.py'
   workingDirectory: $(Agent.BuildDirectory)
 - task: PublishPipelineArtifact@0
