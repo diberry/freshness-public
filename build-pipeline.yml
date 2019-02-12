@@ -27,7 +27,7 @@ steps:
   failOnStderr: false
   errorActionPreference:  silentlyContinue
   ignoreLASTEXITCODE:  true
-- script: ls
+- script: ls -l
   displayName: 'list contents with report'
   workingDirectory: $(Agent.BuildDirectory)
 - task: PublishPipelineArtifact@0
