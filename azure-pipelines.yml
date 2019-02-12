@@ -30,8 +30,8 @@ steps:
 - script: ls -l
   displayName: 'list contents with report'
   workingDirectory: $(Agent.BuildDirectory)
-- script: python -v
-  displayName: 'python version'
+- script: py 
+  displayName: 'python sendresult.py'
   workingDirectory: $(Agent.BuildDirectory)
 - task: PublishPipelineArtifact@0
   inputs:
