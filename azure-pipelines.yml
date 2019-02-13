@@ -35,10 +35,16 @@ steps:
 - script: ls -l
   displayName: 'list contents of ./ (root directory)'
   workingDirectory: $(Agent.BuildDirectory)
+- script: zip -r freshness.zip freshness.csv 
+  displayName: 'zip up file into freshness.zip'
+  workingDirectory: $(Agent.BuildDirectory) 
+- script: ls -l
+  displayName: 'check if zip file was created'
+  workingDirectory: $(Agent.BuildDirectory)  
 - task: PublishPipelineArtifact@0
   displayName: 'Publish artifact'
   inputs:
-    artifactName: 'freshness.csv' 
+    artifactName: 'freshness.zip' 
     targetPath: $(Build.ArtifactStagingDirectory)
 - script: echo Freshness report done!
   displayName: 'Freshness report done!'
