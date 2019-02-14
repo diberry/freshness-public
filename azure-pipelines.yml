@@ -3,7 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-#02/13/2019 - 4:23 PM
+#02/13/2019 - 4:37 PM
 
 trigger:
 - master
@@ -26,7 +26,7 @@ steps:
 - script: ls
   displayName: 'list contents of ./ (root directory)'
   workingDirectory: $(Agent.BuildDirectory)  
-- powershell:  ./freshness-public/getfreshness.ps1 ./azure-docs/articles
+- powershell:  ./freshness-public/getfreshness.ps1 ./azure-docs/articles/cognitive-services/
   workingDirectory:  $(Agent.BuildDirectory)
   displayName:  'get freshness report with powershell script'
   failOnStderr: false
