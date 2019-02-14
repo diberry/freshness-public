@@ -3,7 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-#fix python cli 
+#02/13/2019 - 4:23 PM
 
 trigger:
 - master
