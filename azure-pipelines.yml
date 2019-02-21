@@ -3,7 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-#02/18/2019 - 4:37 PM
+#02/21/2019 testing on mac with safari
 
 trigger:
 - master
