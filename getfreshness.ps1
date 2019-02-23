@@ -1,6 +1,9 @@
+# cmd> Powershell.exe -executionpolicy bypass -File getfreshness.ps1
+
 param([string]$azureContentDir)
 
-#$azureContentDir = "c:\\Users\\diberry\\repos\\azure-docs-pr\\articles"
+
+#$azureContentDir = "c:\\Users\\diberry\\repos\\azure-docs-pr-2\\articles\\cognitive-services\\"
 Write-Host $azureContentDir
 
 # Freshness is 90, but subtract 10 because
@@ -26,6 +29,9 @@ ForEach($file in $files) {
   $author = $content | select-string -pattern "ms.author: "
   if($author) {
     $author = $author.Line.ToString().Replace("ms.author: ","")
+
+    #if more than 1 author is listed, remove comma so that CSV output format isn't bothered
+    $author = $author.Replace(",",";")
   }
 
   $manager = $content | select-string -pattern "manager: "
