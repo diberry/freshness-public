@@ -49,33 +49,22 @@ pool:
 #- script: echo Freshness report done!
 #  displayName: 'Freshness report done!'
 
-variables:
-  AzureSubscription: '65a1016d-0f67-45d2-b838-b8f373d6d52e'
-  ServerName: 'diberry-personal.database.windows.net'
-  DatabaseName: 'diberry-personal'
-  AdminUser: 'Sql'
-  AdminPassword: 'Redrum1!'
-  SQLFile: 'insert-into-sql.sql'
-
 steps:
-- task: AzurePowerShell@2
-  displayName: Azure PowerShell script: FilePath
-  inputs:
-    azureSubscription: '$(AzureSubscription)'
-    ScriptPath: '$(Build.SourcesDirectory)\scripts\SetAzureFirewallRule.ps1'
-    ScriptArguments: '$(ServerName)'
-    azurePowerShellVersion: LatestVersion
-
-- task: CmdLine@1
-  displayName: Run Sqlcmd
-  inputs:
-    filename: Sqlcmd
-    arguments: '-S $(ServerName) -U $(AdminUser) -P $(AdminPassword) -d $(DatabaseName) -i $(SQLFile)'
-
-- task: AzurePowerShell@2
-  displayName: Azure PowerShell script: FilePath
-  inputs:
-    azureSubscription: '$(AzureSubscription)'
-    ScriptPath: '$(Build.SourcesDirectory)\scripts\RemoveAzureFirewallRule.ps1'
-    ScriptArguments: '$(ServerName)'
-    azurePowerShellVersion: LatestVersion
+- powershell: ./freshness-public/SetAzureFirewallRule.ps1
+  workingDirectory:  $(Agent.BuildDirectory)
+  displayName:  'open firewall'
+  failOnStderr: false
+  errorActionPreference:  silentlyContinue
+  ignoreLASTEXITCODE:  true    
+- powershell: ./freshness-public/simple-insert.ps1
+  workingDirectory:  $(Agent.BuildDirectory)
+  displayName:  'insert 1 row'
+  failOnStderr: false
+  errorActionPreference:  silentlyContinue
+  ignoreLASTEXITCODE:  true 
+- powershell: ./freshness-public/RemoveAzureFirewallRule.ps1.ps1
+  workingDirectory:  $(Agent.BuildDirectory)
+  displayName:  'close firewall'
+  failOnStderr: false
+  errorActionPreference:  silentlyContinue
+  ignoreLASTEXITCODE:  true
