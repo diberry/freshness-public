@@ -11,9 +11,9 @@ trigger:
 pool:
   vmImage: 'Ubuntu-16.04'
 
-steps:
-- script: echo Freshness report starting!
-  displayName: 'Freshness report starting!'
+#steps:
+#- script: echo Freshness report starting!
+#  displayName: 'Freshness report starting!'
 #- script: git clone https://github.com/diberry/freshness-public
 #  displayName: 'git freshness-public!'
 #  workingDirectory: $(Agent.BuildDirectory)
