@@ -49,6 +49,7 @@ pool:
 #- script: echo Freshness report done!
 #  displayName: 'Freshness report done!'
 
+
 steps:
 - powershell: ./freshness-public/SetAzureFirewallRule.ps1
   workingDirectory:  $(Agent.BuildDirectory)
