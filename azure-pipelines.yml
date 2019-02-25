@@ -3,7 +3,7 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-#02/21/2019 testing on mac with safari
+#sql script
 
 trigger:
 - master
@@ -11,40 +11,60 @@ trigger:
 pool:
   vmImage: 'Ubuntu-16.04'
 
+#steps:
+#- script: echo Freshness report starting!
+#  displayName: 'Freshness report starting!'
+#- script: git clone https://github.com/diberry/freshness-public
+#  displayName: 'git freshness-public!'
+#  workingDirectory: $(Agent.BuildDirectory)
+#- script: ls ./freshness-public -l
+#  displayName: 'list contents of ./freshness-public'
+#  workingDirectory: $(Agent.BuildDirectory)
+#- script: git clone https://github.com/MicrosoftDocs/azure-docs
+#  displayName: 'git azure-docs'
+#  workingDirectory: $(Agent.BuildDirectory)
+#- script: ls
+#  displayName: 'list contents of ./ (root directory)'
+#  workingDirectory: $(Agent.BuildDirectory)  
+#- powershell:  ./freshness-public/getfreshness.ps1 ./azure-docs/articles/cognitive-services/
+#  workingDirectory:  $(Agent.BuildDirectory)
+#  displayName:  'get freshness report with powershell script'
+#  failOnStderr: false
+#  errorActionPreference:  silentlyContinue
+#  ignoreLASTEXITCODE:  true
+#- script: ls -l
+#  displayName: 'list contents of ./ (root directory)'
+#  workingDirectory: $(Agent.BuildDirectory)
+#- script: zip -r freshness.zip freshness.csv 
+#  displayName: 'zip up file into freshness.zip'
+#  workingDirectory: $(Agent.BuildDirectory) 
+#- script: ls -l
+#  displayName: 'check if zip file was created'
+#  workingDirectory: $(Agent.BuildDirectory)  
+#- task: PublishPipelineArtifact@0
+#  displayName: 'Publish artifact'
+#  inputs:
+#    artifactName: 'freshness.zip' 
+#    targetPath: $(Build.ArtifactStagingDirectory)
+#- script: echo Freshness report done!
+#  displayName: 'Freshness report done!'
+
 steps:
-- script: echo Freshness report starting!
-  displayName: 'Freshness report starting!'
-- script: git clone https://github.com/diberry/freshness-public
-  displayName: 'git freshness-public!'
-  workingDirectory: $(Agent.BuildDirectory)
-- script: ls ./freshness-public -l
-  displayName: 'list contents of ./freshness-public'
-  workingDirectory: $(Agent.BuildDirectory)
-- script: git clone https://github.com/MicrosoftDocs/azure-docs
-  displayName: 'git azure-docs'
-  workingDirectory: $(Agent.BuildDirectory)
-- script: ls
-  displayName: 'list contents of ./ (root directory)'
-  workingDirectory: $(Agent.BuildDirectory)  
-- powershell:  ./freshness-public/getfreshness.ps1 ./azure-docs/articles/cognitive-services/
+- powershell: ./freshness-public/SetAzureFirewallRule.ps1
   workingDirectory:  $(Agent.BuildDirectory)
-  displayName:  'get freshness report with powershell script'
+  displayName:  'open firewall'
+  failOnStderr: false
+  errorActionPreference:  silentlyContinue
+  ignoreLASTEXITCODE:  true    
+- powershell: ./freshness-public/simple-insert.ps1
+  workingDirectory:  $(Agent.BuildDirectory)
+  displayName:  'insert 1 row'
+  failOnStderr: false
+  errorActionPreference:  silentlyContinue
+  ignoreLASTEXITCODE:  true 
+- powershell: ./freshness-public/RemoveAzureFirewallRule.ps1.ps1
+  workingDirectory:  $(Agent.BuildDirectory)
+  displayName:  'close firewall'
   failOnStderr: false
   errorActionPreference:  silentlyContinue
   ignoreLASTEXITCODE:  true
-- script: ls -l
-  displayName: 'list contents of ./ (root directory)'
-  workingDirectory: $(Agent.BuildDirectory)
-- script: zip -r freshness.zip freshness.csv 
-  displayName: 'zip up file into freshness.zip'
-  workingDirectory: $(Agent.BuildDirectory) 
-- script: ls -l
-  displayName: 'check if zip file was created'
-  workingDirectory: $(Agent.BuildDirectory)  
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish artifact'
-  inputs:
-    artifactName: 'freshness.zip' 
-    targetPath: $(Build.ArtifactStagingDirectory)
-- script: echo Freshness report done!
-  displayName: 'Freshness report done!'
