@@ -3,7 +3,7 @@
 param([string]$azureContentDir)
 
 
-#$azureContentDir = "c:\\Users\\diberry\\repos\\azure-docs-pr-2\\articles\\cognitive-services\\"
+#$azureContentDir = "c:\\Users\\diberry\\repos\\azure-docs-pr\\articles\\cognitive-services\\"
 Write-Host $azureContentDir
 
 # Freshness is 90, but subtract 10 because
@@ -32,6 +32,27 @@ ForEach($file in $files) {
 
     #if more than 1 author is listed, remove comma so that CSV output format isn't bothered
     $author = $author.Replace(",",";")
+  }
+
+  $title = $content | select-string -pattern "title: "
+  if($title){
+    $title = $title.Line.ToString().Replace("title: ","")
+    $titleLen = $title.length
+  }
+
+  $titleSuffix = $content | select-string -pattern "titleSuffix: "
+  if($titleSuffix){
+    $titleSuffix = $titleSuffix.Line.ToString().Replace("titleSuffix: ","")
+    $titleSuffixLen = $titleSuffix.length
+  }
+
+  $titleTotalLen = $titleSuffixLen + $titleLen
+  $titleTotal = $title + $titleSuffix
+
+  $description = $content | select-string -pattern "description: "
+  if($description){
+    $description = $description.Line.ToString().Replace("description: ","")
+    $descriptionLen = $description.length
   }
 
   $manager = $content | select-string -pattern "manager: "
@@ -79,6 +100,9 @@ ForEach($file in $files) {
   $fileWithDate | add-member -MemberType NoteProperty -name DaysOld -value $difference
   $fileWithDate | add-member -MemberType NoteProperty -name 90DaysOldDate -value $plus90
   $fileWithDate | add-member -MemberType NoteProperty -name PubDate -value $pubdate
+  $fileWithDate | add-member -MemberType NoteProperty -name FileNameLength-80-or-less -value $file.Name.length
+  $fileWithDate | add-member -MemberType NoteProperty -name TitleLength-59-or-less -value $titleTotalLen
+  $fileWithDate | add-member -MemberType NoteProperty -name DescriptionLength-75-to-300 -value $descriptionLen
   $fileWithDate | add-member -MemberType NoteProperty -name Author -Value $author
   $fileWithDate | add-member -MemberType NoteProperty -name Manager -Value $manager
   $fileWithDate | add-member -MemberType NoteProperty -name Topic -Value $topic
@@ -86,6 +110,8 @@ ForEach($file in $files) {
   $fileWithDate | add-member -MemberType NoteProperty -name Subservice -Value $subservice
   $fileWithDate | add-member -MemberType NoteProperty -name FileName -Value $file.Name
   $fileWithDate | add-member -MemberType NoteProperty -name FolderName -Value $file.DirectoryName
+  $fileWithDate | add-member -MemberType NoteProperty -name Title -Value $titleTotal
+  $fileWithDate | add-member -MemberType NoteProperty -name Description -Value $description
 
   #Add the object to the array
   $filesWithDates+=$fileWithDate
