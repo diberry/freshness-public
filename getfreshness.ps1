@@ -23,6 +23,8 @@ $filesWithDates=@()
 #Loop through the files
 ForEach($file in $files) {
  
+  Write-Host $file.FullName 
+
   #Find the date values
   $content = get-content $file.FullName 
 
@@ -118,7 +120,10 @@ ForEach($file in $files) {
 
 }
 Write-Host "done processing files"
-$filesWithDates | ConvertTo-Csv -NoTypeInformation | % {$_.Replace('"','')} | Out-File freshness.csv
+
+$outfilename = $("freshness-{0}.csv" -f $(Get-Date -format 'yyyyMMdd'));
+
+$filesWithDates | ConvertTo-Csv -NoTypeInformation | % {$_.Replace('"','')} | Out-File $outfilename
 Write-Host "done creating freshness.csv"
 Write-Host $now
 $now = Get-Date
