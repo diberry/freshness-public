@@ -1,0 +1,9 @@
+out
+node_modules
+.env
+dist
+*.tgz
+clover.xml
+coverage-final.json
+coverage
+.nyc_output

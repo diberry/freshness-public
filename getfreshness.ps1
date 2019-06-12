@@ -124,7 +124,7 @@ Write-Host "done processing files"
 $outfilename = $("freshness-{0}.csv" -f $(Get-Date -format 'yyyyMMdd'));
 
 $filesWithDates | ConvertTo-Csv -NoTypeInformation | % {$_.Replace('"','')} | Out-File $outfilename
-Write-Host "done creating freshness.csv"
+Write-Host "done creating $outfilename"
 Write-Host $now
 $now = Get-Date
 Write-Host $now
